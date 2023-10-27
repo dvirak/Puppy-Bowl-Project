@@ -17,7 +17,22 @@
   <body>
     <h1>Puppy Bowl</h1>
     <!-- form to add new players -->
-    <div id="new-player-form"></div>
+    <div id="new-player-form">
+      <form id="player_form" action="addPlayer" method="post">
+        <div>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="player_name" />
+        </div>
+        <div>
+          <label for="breed">Breed:</label>
+          <input type="text" id="breed" name="player_breed" />
+        </div>
+        <div>
+          <label for="imageUrl">Image URL:</label>
+          <input type="url" id="imageUrl" name="player_image" />
+        </div>
+      </form>
+    </div>
 
     <!-- container for all players -->
     <div id="all-players-container"></div>

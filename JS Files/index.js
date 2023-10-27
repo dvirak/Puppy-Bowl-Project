@@ -93,6 +93,25 @@ const renderAllPlayers = (playerList) => {
  */
 const renderNewPlayerForm = () => {
   try {
+    newPlayerFormContainer.innerHTML = "";
+    const newPlayerFormElement = document.createElement(`form`);
+    newPlayerFormElement.setAttribute("id", "player_form");
+    newPlayerFormElement.setAttribute("action", "addPlayer");
+    newPlayerFormElement.setAttribute("method", "post");
+    newPlayerFormElement.innerHTML = `
+            <div>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="player_name" />
+        </div>
+        <div>
+          <label for="breed">Breed:</label>
+          <input type="text" id="breed" name="player_breed" />
+        </div>
+        <div>
+          <label for="imageUrl">Image URL:</label>
+          <input type="url" id="imageUrl" name="player_image" />
+        </div>`;
+    newPlayerFormContainer.append(newPlayerFormElement);
   } catch (err) {
     console.error("Uh oh, trouble rendering the new player form!", err);
   }

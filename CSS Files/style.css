@@ -17,6 +17,15 @@ body {
   gap: 15px;
 }
 
+#player_form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#player_form :nth-last-child(1) {
+  margin: 10px;
+}
+
 .player-card {
   display: flex;
   flex-direction: column;
