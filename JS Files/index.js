@@ -21,10 +21,31 @@ const fetchAllPlayers = async () => {
   }
 };
 
-const fetchSinglePlayer = async (playerId) => {
+const fetchSinglePlayer = async (player) => {
   try {
+    // clear playerContainer
+    // render playerCard + breed information
+    // render return button
+    playerContainer.innerHTML = "";
+    const singlePlayerElement = document.createElement(`div`);
+    singlePlayerElement.classList.add("player-card");
+    singlePlayerElement.innerHTML = `
+        <h2>${player.name}</h2>
+        <img src="${player.imageUrl}" alt="Player Name">
+        <p>Breed: ${player.breed} </p>
+        <div id="buttons">
+          <button class="return-button">Return</button>
+        </div>
+        `;
+    playerContainer.appendChild(singlePlayerElement);
+
+    // Return button
+    const returnButton = playerContainer.querySelector(".return-button");
+    returnButton.addEventListener("click", async (event) => {
+      init();
+    });
   } catch (err) {
-    console.error(`Oh no, trouble fetching player #${playerId}!`, err);
+    console.error(`Oh no, trouble fetching player #${player}!`, err);
   }
 };
 
@@ -81,6 +102,12 @@ const renderAllPlayers = (playerList) => {
         </div>
         `;
       playerContainer.appendChild(playerElement);
+
+      // See Details
+      const detailsButton = playerElement.querySelector(".detail-button");
+      detailsButton.addEventListener("click", async (event) => {
+        await fetchSinglePlayer(player);
+      });
     });
   } catch (err) {
     console.error("Uh oh, trouble rendering players!", err);
@@ -99,18 +126,18 @@ const renderNewPlayerForm = () => {
     newPlayerFormElement.setAttribute("action", "addPlayer");
     newPlayerFormElement.setAttribute("method", "post");
     newPlayerFormElement.innerHTML = `
-            <div>
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="player_name" />
-        </div>
-        <div>
-          <label for="breed">Breed:</label>
-          <input type="text" id="breed" name="player_breed" />
-        </div>
-        <div>
-          <label for="imageUrl">Image URL:</label>
-          <input type="url" id="imageUrl" name="player_image" />
-        </div>`;
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="player_name" />
+      </div>
+      <div>
+        <label for="breed">Breed:</label>
+        <input type="text" id="breed" name="player_breed" />
+      </div>
+      <div>
+        <label for="imageUrl">Image URL:</label>
+        <input type="url" id="imageUrl" name="player_image" />
+      </div>`;
     newPlayerFormContainer.append(newPlayerFormElement);
   } catch (err) {
     console.error("Uh oh, trouble rendering the new player form!", err);
