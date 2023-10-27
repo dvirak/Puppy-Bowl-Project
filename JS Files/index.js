@@ -14,7 +14,7 @@ const fetchAllPlayers = async () => {
   try {
     const response = await fetch(`${APIURL}/players`);
     const players = await response.json();
-    console.log(players);
+    // console.log(players);
     return players;
   } catch (err) {
     console.error("Uh oh, trouble fetching players!", err);
@@ -51,6 +51,15 @@ const fetchSinglePlayer = async (player) => {
 
 const addNewPlayer = async (playerObj) => {
   try {
+    const response = await fetch(`${APIURL}/players`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(playerObj),
+    });
+    const result = await response.json();
+    console.log(result);
   } catch (err) {
     console.error("Oops, something went wrong with adding that player!", err);
   }
@@ -58,6 +67,11 @@ const addNewPlayer = async (playerObj) => {
 
 const removePlayer = async (playerId) => {
   try {
+    const response = await fetch(`${APIURL}/players/${playerId}`, {
+      method: "DELETE",
+    });
+    const result = response.json();
+    console.log(result);
   } catch (err) {
     console.error(
       `Whoops, trouble removing player #${playerId} from the roster!`,
@@ -90,7 +104,7 @@ const renderAllPlayers = (playerList) => {
   try {
     playerContainer.innerHTML = "";
     playerList.forEach((player) => {
-      console.log(player);
+      // console.log(player);
       const playerElement = document.createElement(`div`);
       playerElement.classList.add("player-card");
       playerElement.innerHTML = `
@@ -108,6 +122,13 @@ const renderAllPlayers = (playerList) => {
       detailsButton.addEventListener("click", async (event) => {
         await fetchSinglePlayer(player);
       });
+
+      const deleteButton = playerElement.querySelector(".delete-button");
+      deleteButton.addEventListener("click", async (event) => {
+        console.log(player.id);
+        await removePlayer(player.id);
+        init();
+      });
     });
   } catch (err) {
     console.error("Uh oh, trouble rendering players!", err);
@@ -120,11 +141,10 @@ const renderAllPlayers = (playerList) => {
  */
 const renderNewPlayerForm = () => {
   try {
-    newPlayerFormContainer.innerHTML = "";
     const newPlayerFormElement = document.createElement(`form`);
+
+    newPlayerFormContainer.innerHTML = "";
     newPlayerFormElement.setAttribute("id", "player_form");
-    newPlayerFormElement.setAttribute("action", "addPlayer");
-    newPlayerFormElement.setAttribute("method", "post");
     newPlayerFormElement.innerHTML = `
       <div>
         <label for="name">Name:</label>
@@ -137,8 +157,26 @@ const renderNewPlayerForm = () => {
       <div>
         <label for="imageUrl">Image URL:</label>
         <input type="url" id="imageUrl" name="player_image" />
-      </div>`;
+      </div>
+      <div>
+        <button class="add-player-button">Add Player</button>`;
     newPlayerFormContainer.append(newPlayerFormElement);
+
+    // Add Player Button
+    const playerButton = document.querySelector(".add-player-button");
+    const newNameText = document.querySelector("#name");
+    const newBreedText = document.querySelector("#breed");
+    const newUrlText = document.querySelector("#imageUrl");
+
+    playerButton.addEventListener("click", async (event) => {
+      let playerInfo = {
+        name: newNameText.value,
+        breed: newBreedText.value,
+        imageUrl: newUrlText.value,
+      };
+      console.log(playerInfo);
+      await addNewPlayer(playerInfo);
+    });
   } catch (err) {
     console.error("Uh oh, trouble rendering the new player form!", err);
   }
