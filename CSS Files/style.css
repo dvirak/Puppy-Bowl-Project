@@ -9,6 +9,26 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-image: url("https://static.vecteezy.com/system/resources/previews/003/709/101/non_2x/superbowl-american-football-stadium-background-free-vector.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+h2 {
+  background-color: black;
+  color: white;
+  position: relative;
+  top: 11px;
+  font-size: 2rem;
+  border-radius: 25%;
+  width: 180px;
+  height: 55px;
+  text-align: center;
+}
+
+button {
+  padding: 5px;
 }
 
 #all-players-container {
@@ -23,6 +43,7 @@ body {
   align-items: center;
   border: 5px solid black;
 }
+
 #player_form :nth-last-child(1) {
   margin: 10px;
 }
@@ -33,9 +54,16 @@ body {
   justify-content: space-evenly;
   align-items: center;
   border: 5px solid black;
-  width: 400px;
+  width: 300px;
+  height: 420px;
+  background-image: url("https://cdn4.vectorstock.com/i/1000x1000/85/58/gradient-trading-cards-template-vector-44588558.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
 
 .player-card img {
   width: 250px;
+  height: 270px;
+  position: relative;
+  top: 12px;
 }

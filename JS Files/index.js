@@ -21,11 +21,35 @@ const fetchAllPlayers = async () => {
   }
 };
 
+// Return Team Name
+const teamName = (player) => {
+  let teamName = "";
+  if (player.teamId === 45) {
+    teamName = "Team Ruff";
+  } else if (player.teamId === 46) {
+    teamName = "Team Fluff";
+  } else {
+    teamName = "Free Agent";
+  }
+  return teamName;
+};
+
+// Return Team ID value based on user selectin of drop down list
+const teamId = (team) => {
+  let teamId = undefined;
+  if (team === "fluff") {
+    teamId = 46;
+  } else if (team === "ruff") {
+    teamId = 45;
+  }
+  return teamId;
+};
+
 const fetchSinglePlayer = async (player) => {
   try {
     // clear playerContainer
     // render playerCard + breed information
-    // render return button
+    // render return buttonWSQ
     playerContainer.innerHTML = "";
     const singlePlayerElement = document.createElement(`div`);
     singlePlayerElement.classList.add("player-card");
@@ -33,6 +57,7 @@ const fetchSinglePlayer = async (player) => {
         <h2>${player.name}</h2>
         <img src="${player.imageUrl}" alt="Player Name">
         <p>Breed: ${player.breed} </p>
+        <p>${teamName(player)}</p>
         <div id="buttons">
           <button class="return-button">Return</button>
         </div>
@@ -80,6 +105,18 @@ const removePlayer = async (playerId) => {
   }
 };
 
+// Team info?
+const teamInfo = async () => {
+  try {
+    const response = await fetch(`${APIURL}/teams`);
+    const result = await response.json();
+    console.log(result);
+    return result;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 /**
  * It takes an array of player objects, loops through them, and creates a string of HTML for each
  * player, then adds that string to a larger string of HTML that represents all the players.
@@ -120,6 +157,8 @@ const renderAllPlayers = (playerList) => {
       // See Details
       const detailsButton = playerElement.querySelector(".detail-button");
       detailsButton.addEventListener("click", async (event) => {
+        let teamInfoObj = await teamInfo();
+        console.log(teamInfoObj);
         await fetchSinglePlayer(player);
       });
 
@@ -158,8 +197,15 @@ const renderNewPlayerForm = () => {
         <label for="imageUrl">Image URL:</label>
         <input type="url" id="imageUrl" name="player_image" />
       </div>
+      <label for="team">Team:</label>
+      <select name="team" id="team">
+        <option value="freeAgent">Free Agent</option>
+        <option value="fluff">Team Fluff</option>
+        <option value="ruff">Team Ruff</option>
+      </select>
       <div>
-        <button class="add-player-button">Add Player</button>`;
+        <button class="add-player-button">Add Player</button>
+      </div>`;
     newPlayerFormContainer.append(newPlayerFormElement);
 
     // Add Player Button
@@ -167,12 +213,14 @@ const renderNewPlayerForm = () => {
     const newNameText = document.querySelector("#name");
     const newBreedText = document.querySelector("#breed");
     const newUrlText = document.querySelector("#imageUrl");
+    const newTeam = document.querySelector("#team");
 
     playerButton.addEventListener("click", async (event) => {
       let playerInfo = {
         name: newNameText.value,
         breed: newBreedText.value,
         imageUrl: newUrlText.value,
+        teamId: teamId(newTeam.value),
       };
       console.log(playerInfo);
       await addNewPlayer(playerInfo);
@@ -184,7 +232,7 @@ const renderNewPlayerForm = () => {
 
 const init = async () => {
   const players = await fetchAllPlayers();
-  // console.log(players);
+  console.log(players);
   // console.log(players.data.players);
   renderAllPlayers(players.data.players);
 
