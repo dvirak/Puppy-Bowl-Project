@@ -43,6 +43,7 @@ button {
   align-items: center;
   border: 5px solid black;
 }
+
 #player_form :nth-last-child(1) {
   margin: 10px;
 }
