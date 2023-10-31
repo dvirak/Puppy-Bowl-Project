@@ -56,11 +56,16 @@ const fetchSinglePlayer = async (player) => {
     singlePlayerElement.innerHTML = `
         <h2>${player.name}</h2>
         <img src="${player.imageUrl}" alt="Player Name">
-        <p>Breed: ${player.breed} </p>
-        <p>${teamName(player)}</p>
-        <div id="buttons">
-          <button class="return-button">Return</button>
+        <div class="details">
+          <div>
+            <p>Breed: ${player.breed} </p>
+            <p>${teamName(player)}</p>
+          </div>
+          <div id="buttons">
+            <button class="return-button">Return</button>
+          </div>
         </div>
+
         `;
     playerContainer.appendChild(singlePlayerElement);
 
@@ -144,6 +149,7 @@ const renderAllPlayers = (playerList) => {
       // console.log(player);
       const playerElement = document.createElement(`div`);
       playerElement.classList.add("player-card");
+      playerElement.classList.add("detail-card");
       playerElement.innerHTML = `
         <h2>${player.name}</h2>
         <img src="${player.imageUrl}" alt="Player Name">
