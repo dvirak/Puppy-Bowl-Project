@@ -59,6 +59,10 @@ button {
   margin: 10px;
 }
 
+#team {
+  color: black;
+}
+
 .player-card {
   /* padding-top: 0; */
   display: flex;
@@ -73,6 +77,10 @@ button {
   /* background-image: url("https://cdn4.vectorstock.com/i/1000x1000/85/58/gradient-trading-cards-template-vector-44588558.jpg");
   background-repeat: no-repeat;
   background-size: 100%; */
+}
+
+.add-player-button {
+  background-color: #aa0000;
 }
 
 .player-card img {
