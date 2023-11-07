@@ -225,7 +225,9 @@ const renderNewPlayerForm = () => {
       let playerInfo = {
         name: newNameText.value,
         breed: newBreedText.value,
-        imageUrl: newUrlText.value,
+        imageUrl: newUrlText.value
+          ? newUrlText.value
+          : "https://learndotresources.s3.amazonaws.com/workshop/60ad725bbe74cd0004a6cba0/puppybowl-default-dog.png",
         teamId: teamId(newTeam.value),
       };
       console.log(playerInfo);
